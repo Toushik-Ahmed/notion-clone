@@ -43,7 +43,6 @@ function TranslateDocument({ doc }: { doc: Y.Doc }) {
     e.preventDefault();
 
     startTransition(async () => {
-      console.log('translating document');
       const documentData = doc.get('document-store').toJSON();
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/translateDocument`,
@@ -61,7 +60,7 @@ function TranslateDocument({ doc }: { doc: Y.Doc }) {
       if (res.ok) {
         const { translation } = await res.json();
         setSummary(translation);
-        console.log('translatedtext', translation);
+
         toast.success('Document translated successfully!');
       }
     });
