@@ -1,16 +1,15 @@
 import RoomProvider from '@/components/RoomProvider';
 import { auth } from '@clerk/nextjs/server';
 
-async function DocLayout({
-  children,
-  params,
-}: {
+type LayoutProps = {
   children: React.ReactNode;
-  params: { id: string };
-}) {
-  auth.protect();
+  params: Promise<{ id: string }>; // Adjusted to reflect a Promise
+};
 
-  // Explicitly ensure params is awaited, if necessary (this can depend on your setup)
+async function DocLayout({ children, params }: LayoutProps) {
+  await auth.protect();
+
+  // Await params if it's a Promise
   const { id } = await params;
 
   return <RoomProvider roomId={id}>{children}</RoomProvider>;
